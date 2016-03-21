@@ -5,16 +5,15 @@ version := "1.0"
 scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq(
-   "org.scalatest" %% "scalatest" % "2.2.1",
-   "org.scalatestplus" %% "play" % "1.4.0-M3"
+   "org.scalatest" %% "scalatest" % "3.0.0-M15",
+   "org.scalactic" %% "scalactic" % "3.0.0-M15"
 )
 
 
 resolvers ++= Seq(
-   "Java.net Maven2 Repository" at "http://download.java.net/maven/2/",
-   "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases"
+   "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases",
+   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 )
 
-parallelExecution in Test := false
 
-fork in Test := false
+//fork in Test := false
