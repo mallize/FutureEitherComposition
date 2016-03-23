@@ -21,11 +21,19 @@ case class FutureEither[A, +B](inner: Future[Either[A, B]]) {
 object FutureEither {
    def failure[A, B <: Any](a: A): FutureEither[A, B] = FutureEither(Future.successful(Left(a)))
 
-   def point[A <: Any, B](b: B): FutureEither[A, B] = FutureEither(Future.successful(Right(b)))
+   def success[A <: Any, B](b: B): FutureEither[A, B] = FutureEither(Future.successful(Right(b)))
 
-   def pointFromFuture[A <: Any, B](fb: Future[B])(implicit ec: ExecutionContext): FutureEither[A, B] = FutureEither(fb.map(b => Right(b)))
+   def successFromFuture[A <: Any, B](fb: Future[B])(implicit ec: ExecutionContext): FutureEither[A, B] = FutureEither(fb.map(b => Right(b)))
 
    def failureFromFuture[A, B <: Any](fa: Future[A])(implicit ec: ExecutionContext): FutureEither[A, B] = FutureEither(fa.map(a => Left(a)))
+
+   def fromFuture[A, B](fab: Future[FutureEither[A, B]])(implicit ec: ExecutionContext): FutureEither[A, B] = {
+      FutureEither[A, B](
+      fab.flatMap(_.fold(
+         e => Left(e),
+         s => Right(s)
+      )))
+   }
 
    def fromEither[A, B](a: Either[A, B]): FutureEither[A, B] = FutureEither(Future.successful(a))
 }
