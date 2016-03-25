@@ -6,7 +6,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 import scala.language.postfixOps
-import scala.util.{Failure, Success, Try}
+import net.clementmatthew.util.FutureEitherUtil._
+
 
 class FutureEitherSpec extends org.scalatest.Suite with WordSpecLike {
 
@@ -77,27 +78,6 @@ class FutureEitherSpec extends org.scalatest.Suite with WordSpecLike {
      def applyTruth(e: Either[Error, Boolean], s: String): Future[Either[Error, Boolean]] = applyEither1(Truth.truth, e, s)
 
      def applyTruthString(e: Either[Error, Boolean], s: String, s2: String) = applyEither2(Truth.truthString, e, s, s2)
-
-     def applyEither[L, R1, R2](f: (R1) => Future[Either[L, R1]], e: Either[L, R1]): Future[Either[L, R1]] = {
-        e match {
-           case Left(l) => Future.successful(Left(l))
-           case Right(r) => f(r)
-        }
-     }
-
-     def applyEither1[L, R1, C, R2](f: (R1, C) => Future[Either[L, R1]], e: Either[L, R1], s: C): Future[Either[L, R1]] = {
-        e match {
-           case Left(l) => Future.successful(Left(l))
-           case Right(r) => f(r, s)
-        }
-     }
-
-     def applyEither2[L, R1, C, D, R2](f: (R1, C, D) => Future[Either[L, R2]], e: Either[L, R1], s: C, s2: D): Future[Either[L, R2]] = {
-        e match {
-           case Left(l) => Future.successful(Left(l))
-           case Right(r) => f(r, s, s2)
-        }
-     }
 
      def truth(b: Boolean, message: String = ""): Future[Either[Error, Boolean]] = {
         println(s"truth message = $message")
