@@ -73,13 +73,6 @@ class FutureEitherSpec extends org.scalatest.Suite with WordSpecLike {
 
    }
 
-   def applyTruth[A, B](e: Either[A, B], s: String, f: (B, String) => Future[Either[A, B]]): Future[Either[A, B]] = {
-      e match {
-         case Left(error) => Future.successful(e)
-         case Right(r) => f(r, s)
-      }
-   }
-
   object Truth {
      def applyTruth(e: Either[Error, Boolean], s: String): Future[Either[Error, Boolean]] = applyEither1(Truth.truth, e, s)
 
