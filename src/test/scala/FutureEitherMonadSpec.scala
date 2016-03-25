@@ -7,6 +7,7 @@ import scala.language.postfixOps
 
 class FutureEitherMonadSpec extends org.scalatest.Suite with WordSpecLike {
 
+
    "FutureEither" should {
       "compose and yield string" in {
          val res: FutureEither[Error, String] =
